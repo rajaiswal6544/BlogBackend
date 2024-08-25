@@ -1,0 +1,50 @@
+<html lang="en">
+  <head>
+    <%- include("./partials/head.ejs") %>
+    <title>Blog</title>
+  </head>
+  <body>
+    <%- include("./partials/nav.ejs") %>
+    <div class="container mt-4">
+      <h1><%= Blog.title %></h1>
+      <img src="<%= Blog.coverimageurl %>" width="200px" alt="" />
+      <pre class="mt-3"><%= Blog.body %></pre>
+      <div class="container">
+        <img src="<%= Blog.createdby.profileimage %>" width="100px" alt="" />
+        <%= Blog.createdby.fullname %>
+      </div>
+      <div class="container mt-3">
+        <h1>Comments(<%= comments.length %>)</h1>
+        <% if (locals.user) { %>
+        <form action="/blog/comment/<%=Blog._id  %>" method="post">
+          <div class="mb-3">
+            <input
+              type="text"
+              name="content"
+              class="form-control"
+              placeholder="Enter your comment"
+            />
+            <button class="btn btn-primary mt-4" type="submit">Add</button>
+          </div>
+        </form>
+        <% } %>
+        <div class="mt-3">
+          <% comments.forEach(comment => { %>
+          <div>
+            <img
+              src="<%= comment.createdby.profileimage %>"
+              width="50px"
+              alt=""
+            />
+            <%= comment.createdby.fullname %>
+            <pre><%= comment.content %></pre>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+     
+    </div>
+
+    <%- include("./partials/script.ejs") %>
+  </body>
+</html>
